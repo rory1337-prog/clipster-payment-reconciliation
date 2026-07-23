@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: clipster-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: clipster
+      POSTGRES_PASSWORD: clipster
+      POSTGRES_DB: reconciliation
+
+    ports:
+      - "5435:5432"
+
+    volumes:
+      - clipster_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  clipster_postgres_data:

@@ -34,7 +34,7 @@ The system will:
 ## Development
 
 ```bash
-python3.12 -m venv .venv
+python3.14 -m venv .venv
 source .venv/bin/activate
 pip install -r backend/requirements-dev.txt
 uvicorn backend.app.main:app --reload
