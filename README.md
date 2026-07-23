@@ -1,33 +1,146 @@
+![Python](https://img.shields.io/badge/Python-3.14-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.116-green)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0-red)
+![Pytest](https://img.shields.io/badge/Tests-Passing-success)
+
 # Clipster Payment & Invoice Reconciliation
 
-A backend service that imports invoices and payments from multiple providers, normalizes the data into a unified format, stores it in PostgreSQL, and automatically reconciles payments with invoices using configurable matching rules.
+Backend service for importing financial data from multiple payment providers, normalizing records, and automatically reconciling incoming payments with invoices.
+
+The project was built as a technical assignment for **Clipster**.
+
+---
+
+## Overview
+
+Finance teams often receive payments through multiple providers while invoices are generated in a separate accounting system.
+
+This project demonstrates how such data can be consolidated into a single system that:
+
+- imports invoices and payments from multiple providers
+- normalizes provider-specific data into a common format
+- automatically matches payments to invoices
+- identifies ambiguous and unmatched transactions
+- provides a finance overview through a REST API
+
+The application follows a layered architecture and is designed to be easily extended with new payment providers or reconciliation strategies.
+
+---
 
 ## Features
 
-- Import invoices and payments from multiple providers
-- Normalize provider-specific payloads into canonical models
-- Store data in PostgreSQL
-- Automatic payment reconciliation
-- Repository Pattern + Unit of Work architecture
-- REST API built with FastAPI
-- Finance overview dashboard endpoint
-- Docker support
-- Pytest test suite
-- Ruff linting
+### Data Import
+
+Supports importing mocked data from:
+
+- QuickBooks (Invoices)
+- Stripe
+- PayPal
+- Mercury
+- Cryptocurrency payments
+
+Provider-specific payloads are normalized into unified domain models before being stored in PostgreSQL.
+
+---
+
+### Automatic Reconciliation
+
+Payments are matched to invoices using deterministic business rules.
+
+Matching priority:
+
+1. Exact invoice reference
+2. Customer email + amount + currency
+3. Customer name + amount + currency
+
+Every successful reconciliation includes:
+
+- matching method
+- confidence score
+- explanation
+
+---
+
+### Finance Dashboard
+
+Provides aggregated information including:
+
+- total invoices
+- paid invoices
+- open invoices
+- total payments
+- matched payments
+- unmatched payments
+- payments requiring manual review
 
 ---
 
 ## Tech Stack
 
-- Python 3.14
-- FastAPI
-- PostgreSQL
-- SQLAlchemy 2.0
-- Alembic
-- Docker & Docker Compose
-- Pydantic v2
-- Pytest
-- Ruff
+| Category | Technologies |
+|-----------|--------------|
+| Language | Python 3.14 |
+| API | FastAPI |
+| Database | PostgreSQL |
+| ORM | SQLAlchemy 2.0 |
+| Validation | Pydantic v2 |
+| Database Migrations | Alembic |
+| Testing | Pytest |
+| Linting | Ruff |
+| Containerization | Docker & Docker Compose |
+
+---
+
+## Architecture
+
+```
+                 +-------------------+
+                 |   Payment Files   |
+                 +-------------------+
+                           |
+                           v
+                 +-------------------+
+                 |     Importers     |
+                 +-------------------+
+                           |
+                           v
+                 +-------------------+
+                 |    Normalizers    |
+                 +-------------------+
+                           |
+                           v
+                 +-------------------+
+                 |    PostgreSQL     |
+                 +-------------------+
+                           |
+                           v
+                 +-------------------+
+                 | Reconciliation    |
+                 |     Service       |
+                 +-------------------+
+                           |
+                           v
+                 +-------------------+
+                 |    FastAPI API    |
+                 +-------------------+
+```
+
+The project follows a layered architecture:
+
+```
+API
+ ↓
+Services
+ ↓
+Repositories
+ ↓
+SQLAlchemy
+ ↓
+PostgreSQL
+```
+
+Business logic is isolated inside the service layer while repositories are responsible only for data access.
 
 ---
 
@@ -35,6 +148,7 @@ A backend service that imports invoices and payments from multiple providers, no
 
 ```
 backend/
+│
 ├── app/
 │   ├── api/
 │   ├── core/
@@ -46,61 +160,39 @@ backend/
 │   │   ├── importers/
 │   │   └── reconciliation/
 │   └── main.py
+│
 ├── mock_data/
+│
 └── tests/
 ```
 
 ---
 
-## Architecture
-
-The application follows a layered architecture.
-
-```
-API
- │
- ▼
-Services
- │
- ▼
-Repositories
- │
- ▼
-SQLAlchemy
- │
- ▼
-PostgreSQL
-```
-
-Business logic is isolated inside the service layer, while repositories are responsible only for data access.
-
----
-
 ## Reconciliation Strategy
-
-Payments are matched against invoices using deterministic rules.
-
-Priority:
-
-1. Exact invoice reference
-2. Customer email + amount + currency
-3. Customer name + amount + currency
-
-Each successful match receives a confidence score.
 
 | Rule | Confidence |
 |------|-----------:|
-| Exact reference | 1.00 |
-| Email + amount + currency | 0.98 |
-| Name + amount + currency | 0.90 |
+| Exact invoice reference | 1.00 |
+| Email + Amount + Currency | 0.98 |
+| Name + Amount + Currency | 0.90 |
 
-If no rule matches, the payment remains unmatched.
+Transactions that cannot be matched remain **UNMATCHED**.
+
+Ambiguous transactions can be marked as **NEEDS_REVIEW**.
 
 ---
 
-## API
+# REST API
 
-### Health
+Interactive API documentation:
+
+```
+http://localhost:8000/docs
+```
+
+---
+
+## Health Check
 
 ```
 GET /health
@@ -112,13 +204,13 @@ GET /health/db
 
 ---
 
-### Run reconciliation
+## Run Reconciliation
 
 ```
 POST /reconciliation/run
 ```
 
-Example response
+Example response:
 
 ```json
 {
@@ -128,21 +220,34 @@ Example response
 
 ---
 
-### List matches
+## Reconciliation Matches
 
 ```
 GET /reconciliation/matches
 ```
 
+Example:
+
+```json
+[
+  {
+    "payment_id": 1,
+    "invoice_id": 1,
+    "method": "exact_reference",
+    "confidence_score": 1.0
+  }
+]
+```
+
 ---
 
-### Finance overview
+## Finance Overview
 
 ```
 GET /overview
 ```
 
-Example response
+Example response:
 
 ```json
 {
@@ -159,9 +264,9 @@ Example response
 
 ---
 
-## Running locally
+# Getting Started
 
-Clone the repository.
+## Clone repository
 
 ```bash
 git clone https://github.com/rory1337-prog/clipster-payment-reconciliation.git
@@ -169,31 +274,41 @@ git clone https://github.com/rory1337-prog/clipster-payment-reconciliation.git
 cd clipster-payment-reconciliation
 ```
 
-Create an environment file.
+---
+
+## Configure environment
 
 ```bash
 cp .env.example .env
 ```
 
-Start PostgreSQL.
+Update database settings if necessary.
+
+---
+
+## Start PostgreSQL
 
 ```bash
 docker compose up -d
 ```
 
-Run database migrations.
+---
+
+## Apply migrations
 
 ```bash
 alembic upgrade head
 ```
 
-Start the API.
+---
+
+## Run API
 
 ```bash
 uvicorn backend.app.main:app --reload
 ```
 
-Open Swagger UI.
+Open:
 
 ```
 http://localhost:8000/docs
@@ -201,7 +316,7 @@ http://localhost:8000/docs
 
 ---
 
-## Running tests
+# Running Tests
 
 ```bash
 pytest
@@ -209,7 +324,7 @@ pytest
 
 ---
 
-## Linting
+# Code Quality
 
 ```bash
 ruff check backend
@@ -217,32 +332,46 @@ ruff check backend
 
 ---
 
-## Example Workflow
+# Example Workflow
 
-1. Import provider data
-2. Store normalized records in PostgreSQL
-3. Execute reconciliation
-4. Inspect reconciliation matches
-5. View finance overview
+```
+Mock Provider Data
+        │
+        ▼
+ Import Service
+        │
+        ▼
+ Normalization
+        │
+        ▼
+ PostgreSQL
+        │
+        ▼
+ Reconciliation
+        │
+        ▼
+ Finance Overview
+```
 
 ---
 
-## Future Improvements
+# Future Improvements
 
-- AI-assisted matching
-- Fuzzy name matching
+- AI-assisted reconciliation
+- Fuzzy string matching
 - Background reconciliation jobs
-- Audit logs
+- Audit trail
 - Manual reconciliation endpoint
-- Batch reconciliation scheduling
+- CSV export
+- Webhooks for payment providers
 
 ---
 
-## Author
+# Author
 
 **Rostyslav Ryzhkov**
 
-Python Backend Developer / AI Automation Engineer
+Python Backend Developer | AI Automation Engineer
 
 - GitHub: https://github.com/rory1337-prog
 - LinkedIn: https://linkedin.com/in/rostyslavryzhkov
