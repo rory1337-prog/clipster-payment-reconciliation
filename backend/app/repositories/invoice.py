@@ -3,7 +3,7 @@ from collections.abc import Sequence
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from backend.app.models.invoice import Invoice
+from backend.app.models.invoice import Invoice, InvoiceStatus
 
 
 class InvoiceRepository:
@@ -32,4 +32,12 @@ class InvoiceRepository:
 
     def list_all(self) -> list[Invoice]:
         statement = select(Invoice).order_by(Invoice.issue_date.desc())
+        return list(self.session.scalars(statement).all())
+
+    def list_open(self) -> list[Invoice]:
+        statement = (
+            select(Invoice)
+            .where(Invoice.status == InvoiceStatus.OPEN)
+            .order_by(Invoice.issue_date.asc())
+        )
         return list(self.session.scalars(statement).all())
