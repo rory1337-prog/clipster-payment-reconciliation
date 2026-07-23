@@ -1,0 +1,15 @@
+[
+  {
+    "transaction_id": "paypal_tx_001",
+    "gross_amount": "840.00",
+    "fee_amount": "25.00",
+    "currency_code": "USD",
+    "payer": {
+      "name": "Northstar Media",
+      "email": "finance@northstarmedia.io"
+    },
+    "note": "Invoice INV-1002",
+    "transaction_time": "2026-07-11T11:30:00Z",
+    "state": "completed"
+  }
+]

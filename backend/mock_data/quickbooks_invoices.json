@@ -1,0 +1,67 @@
+[
+  {
+    "id": "qb_inv_1001",
+    "invoice_number": "INV-1001",
+    "customer": {
+      "name": "Acme Studio",
+      "email": "billing@acmestudio.com"
+    },
+    "amount": "1250.00",
+    "currency": "USD",
+    "issue_date": "2026-07-01",
+    "due_date": "2026-07-15",
+    "status": "open"
+  },
+  {
+    "id": "qb_inv_1002",
+    "invoice_number": "INV-1002",
+    "customer": {
+      "name": "Northstar Media",
+      "email": "finance@northstarmedia.io"
+    },
+    "amount": "840.00",
+    "currency": "USD",
+    "issue_date": "2026-07-03",
+    "due_date": "2026-07-17",
+    "status": "open"
+  },
+  {
+    "id": "qb_inv_1003",
+    "invoice_number": "INV-1003",
+    "customer": {
+      "name": "Pixel Forge",
+      "email": "accounts@pixelforge.dev"
+    },
+    "amount": "2100.00",
+    "currency": "USD",
+    "issue_date": "2026-07-05",
+    "due_date": "2026-07-19",
+    "status": "open"
+  },
+  {
+    "id": "qb_inv_1004",
+    "invoice_number": "INV-1004",
+    "customer": {
+      "name": "Bright Labs",
+      "email": "ops@brightlabs.ai"
+    },
+    "amount": "990.00",
+    "currency": "USD",
+    "issue_date": "2026-07-07",
+    "due_date": "2026-07-21",
+    "status": "open"
+  },
+  {
+    "id": "qb_inv_1005",
+    "invoice_number": "INV-1005",
+    "customer": {
+      "name": "Motion Works",
+      "email": "billing@motionworks.co"
+    },
+    "amount": "1500.00",
+    "currency": "USD",
+    "issue_date": "2026-07-08",
+    "due_date": "2026-07-22",
+    "status": "open"
+  }
+]

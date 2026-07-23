@@ -1,0 +1,22 @@
+[
+  {
+    "tx_hash": "0xclipster001",
+    "amount_usd": "1498.50",
+    "network_fee_usd": "1.50",
+    "currency": "USD",
+    "sender_label": "Motion Works",
+    "memo": "INV1005",
+    "confirmed_at": "2026-07-15T18:10:00Z",
+    "confirmations": 24
+  },
+  {
+    "tx_hash": "0xclipster002",
+    "amount_usd": "500.00",
+    "network_fee_usd": "2.10",
+    "currency": "USD",
+    "sender_label": "Unknown Wallet",
+    "memo": null,
+    "confirmed_at": "2026-07-16T10:00:00Z",
+    "confirmations": 18
+  }
+]

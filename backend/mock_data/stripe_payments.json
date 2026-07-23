@@ -1,0 +1,28 @@
+[
+  {
+    "id": "pi_stripe_001",
+    "amount": "1250.00",
+    "fee": "36.55",
+    "currency": "USD",
+    "customer_email": "billing@acmestudio.com",
+    "customer_name": "Acme Studio",
+    "description": "Payment for INV-1001",
+    "metadata": {
+      "invoice_number": "INV-1001"
+    },
+    "created_at": "2026-07-10T09:15:00Z",
+    "status": "succeeded"
+  },
+  {
+    "id": "pi_stripe_002",
+    "amount": "990.00",
+    "fee": "29.01",
+    "currency": "USD",
+    "customer_email": "ops@brightlabs.ai",
+    "customer_name": "Bright Labs",
+    "description": "July services",
+    "metadata": {},
+    "created_at": "2026-07-12T14:20:00Z",
+    "status": "succeeded"
+  }
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "mercury_tx_001",
+    "amount": "2100.00",
+    "currency": "USD",
+    "counterparty_name": "Pixel Forge LLC",
+    "counterparty_email": null,
+    "bank_description": "PIXEL FORGE PAYMENT",
+    "reference": null,
+    "posted_at": "2026-07-13T08:45:00Z",
+    "status": "sent"
+  },
+  {
+    "id": "mercury_tx_002",
+    "amount": "1500.00",
+    "currency": "USD",
+    "counterparty_name": "MotionWorks",
+    "counterparty_email": null,
+    "bank_description": "CLIENT TRANSFER JULY",
+    "reference": null,
+    "posted_at": "2026-07-14T16:05:00Z",
+    "status": "sent"
+  }
+]
